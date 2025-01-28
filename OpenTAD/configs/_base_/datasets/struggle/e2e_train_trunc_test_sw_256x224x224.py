@@ -1,0 +1,100 @@
+annotation_path = "/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/splits/indomain_generalization/Tying_Knots/Tying_Knots_subactivity01_data.json"
+class_map = "/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/annotations/category_idx.txt" 
+data_path = "/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/data/360p"
+block_list = None
+
+window_size = 256
+
+dataset = dict(
+    train=dict(
+        type="StrugglePaddingDataset",
+        ann_file=annotation_path,
+        subset_name=["train"],
+        block_list=block_list,
+        class_map=class_map,
+        data_path=data_path,
+        filter_gt=False,
+        # Struggle dataloader setting
+        feature_stride=16,
+        sample_stride=1,  # 1x4=4
+        pipeline=[
+            dict(type="PrepareVideoInfo", format="mp4"),
+            dict(type="mmaction.DecordInit", num_threads=4),
+            dict(
+                type="LoadFrames",
+                num_clips=1,
+                method="random_trunc",
+                trunc_len=window_size,
+                trunc_thresh=0.5,
+                crop_ratio=[0.9, 1.0],
+            ),
+            dict(type="mmaction.DecordDecode"),
+            dict(type="mmaction.Resize", scale=(-1, 256)),
+            dict(type="mmaction.RandomResizedCrop"),
+            dict(type="mmaction.Resize", scale=(224, 224), keep_ratio=False),
+            dict(type="mmaction.Flip", flip_ratio=0.5),
+            dict(type="mmaction.FormatShape", input_format="NCTHW"),
+            dict(type="ConvertToTensor", keys=["imgs", "gt_segments", "gt_labels"]),
+            dict(type="Collect", inputs="imgs", keys=["masks", "gt_segments", "gt_labels"]),
+        ],
+    ),
+    val=dict(
+        type="StruggleSlidingDataset",
+        ann_file=annotation_path,
+        subset_name=["validation"],
+        block_list=block_list,
+        class_map=class_map,
+        data_path=data_path,
+        filter_gt=False,
+        # Struggle dataloader setting
+        feature_stride=16,
+        sample_stride=1,  # 1x4=4
+        window_size=window_size,
+        window_overlap_ratio=0.25,
+        pipeline=[
+            dict(type="PrepareVideoInfo", format="mp4"),
+            dict(type="mmaction.DecordInit", num_threads=4),
+            dict(type="LoadFrames", num_clips=1, method="sliding_window"),
+            dict(type="mmaction.DecordDecode"),
+            dict(type="mmaction.Resize", scale=(-1, 224)),
+            dict(type="mmaction.CenterCrop", crop_size=224),
+            dict(type="mmaction.FormatShape", input_format="NCTHW"),
+            dict(type="ConvertToTensor", keys=["imgs", "gt_segments", "gt_labels"]),
+            dict(type="Collect", inputs="imgs", keys=["masks", "gt_segments", "gt_labels"]),
+        ],
+    ),
+    test=dict(
+        type="StruggleSlidingDataset",
+        ann_file=annotation_path,
+        subset_name=["validation"],
+        block_list=block_list,
+        class_map=class_map,
+        data_path=data_path,
+        filter_gt=False,
+        test_mode=True,
+        # Struggle dataloader setting
+        feature_stride=16,
+        sample_stride=1,  # 1x4=4
+        window_size=window_size,
+        window_overlap_ratio=0.25,
+        pipeline=[
+            dict(type="PrepareVideoInfo", format="mp4"),
+            dict(type="mmaction.DecordInit", num_threads=4),
+            dict(type="LoadFrames", num_clips=1, method="sliding_window"),
+            dict(type="mmaction.DecordDecode"),
+            dict(type="mmaction.Resize", scale=(-1, 224)),
+            dict(type="mmaction.CenterCrop", crop_size=224),
+            dict(type="mmaction.FormatShape", input_format="NCTHW"),
+            dict(type="ConvertToTensor", keys=["imgs"]),
+            dict(type="Collect", inputs="imgs", keys=["masks"]),
+        ],
+    ),
+)
+
+
+evaluation = dict(
+    type="mAP",
+    subset=["validation"],
+    tiou_thresholds=[0.3, 0.4, 0.5, 0.6, 0.7],
+    ground_truth_filename=annotation_path,
+)

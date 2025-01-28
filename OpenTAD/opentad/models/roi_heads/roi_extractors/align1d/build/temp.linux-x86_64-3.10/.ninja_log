@@ -1,0 +1,5 @@
+# ninja log v5
+1	15681	1735219719	/media/alexa/WORKSPACE/Shijia-stage-two/OpenTAD/opentad/models/roi_heads/roi_extractors/align1d/build/temp.linux-x86_64-3.10/Align1D_cuda_kernal.o	41eaad54644b922f
+1	15904	1735219720	/media/alexa/WORKSPACE/Shijia-stage-two/OpenTAD/opentad/models/roi_heads/roi_extractors/align1d/build/temp.linux-x86_64-3.10/Align1D_cuda.o	f83204f84b658f99
+10	15719	1735503207	/media/alexa/WORKSPACE/Shijia-stage-two/OpenTAD/opentad/models/roi_heads/roi_extractors/align1d/build/temp.linux-x86_64-3.10/Align1D_cuda_kernal.o	ad34f6bcc6c898a3
+11	15813	1735503207	/media/alexa/WORKSPACE/Shijia-stage-two/OpenTAD/opentad/models/roi_heads/roi_extractors/align1d/build/temp.linux-x86_64-3.10/Align1D_cuda.o	633705e1968b89fa

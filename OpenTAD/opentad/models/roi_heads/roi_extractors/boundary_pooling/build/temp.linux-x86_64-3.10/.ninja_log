@@ -1,0 +1,5 @@
+# ninja log v5
+1	15507	1735219738	/media/alexa/WORKSPACE/Shijia-stage-two/OpenTAD/opentad/models/roi_heads/roi_extractors/boundary_pooling/build/temp.linux-x86_64-3.10/boundary_max_pooling_kernel.o	e9e80279825835ce
+1	15785	1735219738	/media/alexa/WORKSPACE/Shijia-stage-two/OpenTAD/opentad/models/roi_heads/roi_extractors/boundary_pooling/build/temp.linux-x86_64-3.10/boundary_max_pooling_cuda.o	2a2e7de09d8e1976
+10	15265	1735503225	/media/alexa/WORKSPACE/Shijia-stage-two/OpenTAD/opentad/models/roi_heads/roi_extractors/boundary_pooling/build/temp.linux-x86_64-3.10/boundary_max_pooling_kernel.o	8dad5a834834ade2
+10	15665	1735503225	/media/alexa/WORKSPACE/Shijia-stage-two/OpenTAD/opentad/models/roi_heads/roi_extractors/boundary_pooling/build/temp.linux-x86_64-3.10/boundary_max_pooling_cuda.o	57cfd5268547ef7b

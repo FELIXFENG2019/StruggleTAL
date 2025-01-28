@@ -1,0 +1,15 @@
+# Training
+torchrun --nnodes={num_node} --nproc_per_node={num_gpu} --rdzv_backend=c10d --rdzv_endpoint=localhost:0 tools/train.py {config}
+
+torchrun --nnodes=1 --nproc_per_node=2 --rdzv_backend=c10d --rdzv_endpoint=localhost:0 tools/train.py configs/re2tal/e2e_struggle_re2tal_actionformer_slowfast101.py
+torchrun --nnodes=1 --nproc_per_node=2 --rdzv_backend=c10d --rdzv_endpoint=localhost:0 tools/train.py configs/re2tal/e2e_struggle_resize_re2tal_actionformer_slowfast101.py
+
+torchrun --nnodes=1 --nproc_per_node=1 --rdzv_backend=c10d --rdzv_endpoint=localhost:0 tools/train.py configs/actionformer/thumos_i3d.py
+
+# Inference and Evaluation
+torchrun --nnodes={num_node} --nproc_per_node={num_gpu} --rdzv_backend=c10d --rdzv_endpoint=localhost:0 tools/test.py {config} --checkpoint {path}
+
+torchrun --nnodes=1 --nproc_per_node=2 --rdzv_backend=c10d --rdzv_endpoint=localhost:0 tools/test.py configs/re2tal/e2e_struggle_re2tal_actionformer_slowfast101.py --checkpoint exps/struggle/re2tal_e2e_actionformer_slowfast101_debug1/gpu2_id0/checkpoint/best.pth
+torchrun --nnodes=1 --nproc_per_node=2 --rdzv_backend=c10d --rdzv_endpoint=localhost:0 tools/test.py configs/re2tal/e2e_struggle_resize_re2tal_actionformer_slowfast101.py --checkpoint exps/struggle/re2tal_e2e_actionformer_slowfast101_RESIZEframe768_debug4/gpu2_id0/checkpoint/best.pth
+
+torchrun --nnodes=1 --nproc_per_node=1 --rdzv_backend=c10d --rdzv_endpoint=localhost:0 tools/test.py configs/actionformer/thumos_i3d.py --checkpoint exps/thumos/actionformer_i3d/gpu1_id0/checkpoint/actionformer_thumos_i3d_epoch_34_8e5ac8fd.pth

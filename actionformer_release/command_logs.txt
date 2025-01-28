@@ -1,0 +1,35 @@
+cd /media/alexa/WORKSPACE/Shijia-stage-two/actionformer_release
+conda activate actionformer
+
+# training and validation command
+python trainval.py 'configs/struggle_slowfast.yaml' --output='tyingknots_subactivity01'
+
+python trainval.py 'configs/struggle_slowfast_combined.yaml' --output='tyingknots_crossdomain'
+python trainval.py 'configs/struggle_slowfast_combined.yaml' --output='origami_crossdomain'
+python trainval.py 'configs/struggle_slowfast_combined.yaml' --output='tangram_crossdomain'
+python trainval.py 'configs/struggle_slowfast_combined.yaml' --output='shufflecards_crossdomain'
+
+python trainval.py 'configs/struggle_slowfast.yaml' --output='tyingknots_separate_attempt01' --print-freq=1
+python trainval.py 'configs/struggle_slowfast.yaml' --output='tyingknots_allattempts_sample01' --print-freq=1
+
+# To visualize the training plots
+tensorboard --logdir='./logs' --port 6006
+
+# To evaluate the models (validation/test)
+python eval.py 'configs/struggle_slowfast.yaml' './ckpt/struggle_slowfast_tyingknots_subactivity01_1class_3'
+python eval.py 'configs/struggle_slowfast.yaml' './ckpt/struggle_slowfast_tyingknots_subactivity02_1class'
+python eval.py 'configs/struggle_slowfast.yaml' './ckpt/struggle_slowfast_shufflecards_subactivity01_1class'
+
+python eval.py 'configs/struggle_slowfast_combined.yaml' './ckpt/struggle_slowfast_combined_tyingknots_crossdomain'
+python eval.py 'configs/struggle_slowfast_combined.yaml' './ckpt/struggle_slowfast_combined_origami_crossdomain'
+python eval.py 'configs/struggle_slowfast_combined.yaml' './ckpt/struggle_slowfast_combined_tangram_crossdomain'
+python eval.py 'configs/struggle_slowfast_combined.yaml' './ckpt/struggle_slowfast_combined_shufflecards_crossdomain'
+
+python eval.py 'configs/struggle_slowfast.yaml' './ckpt/struggle_slowfast_tyingknots_separate_attempt01'
+python eval.py 'configs/struggle_slowfast.yaml' './ckpt/struggle_slowfast_tyingknots_separate_allattempts'
+python eval.py 'configs/struggle_slowfast.yaml' './ckpt/struggle_slowfast_tyingknots_allattempts_sample01'
+
+# Evaluate using random model
+python random_model_eval.py 'configs/struggle_slowfast.yaml'
+python random_model_eval.py 'configs/struggle_slowfast_combined.yaml'
+
