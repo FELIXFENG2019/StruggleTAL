@@ -2,10 +2,10 @@ dataset_name: struggle
 train_split: ['train_attempt01', 'train_attempt02', 'train_attempt03', 'train_attempt04', 'train_attempt05'] # normally should be ['train'], change to ['train_attempt01', ...] for the separate attempts splits
 val_split: ['validation'] # for unseen test ['test_subactivity01', ...]
 dataset: {
-  json_file: /media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/splits/separate_attempts/Tangram/Tangram_sepattempt.json,
-  # json_file: /media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/splits/separate_attempts/Shuffle_Cards/Shuffle_Cards_allattempts_sample03.json,
-  # json_file: /media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/splits/indomain_generalization/Shuffle_Cards/Shuffle_Cards_subactivity05_data.json,
-  feat_folder: /media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/extracted_features/slowfast_features/Tangram,
+  json_file: ../data/EvoStruggle/splits/separate_attempts/Tangram/Tangram_sepattempt.json,
+  # json_file: ../data/EvoStruggle/splits/separate_attempts/Shuffle_Cards/Shuffle_Cards_allattempts_sample03.json,
+  # json_file: ../data/EvoStruggle/splits/indomain_generalization/Shuffle_Cards/Shuffle_Cards_subactivity05_data.json,
+  feat_folder: ../data/EvoStruggle/extracted_features/slowfast_features/Tangram,
   file_prefix: ~,
   file_ext: .npy,
   num_classes: 1,

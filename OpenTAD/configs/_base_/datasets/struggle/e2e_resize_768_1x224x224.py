@@ -1,8 +1,8 @@
-# annotation_path = "/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/splits/indomain_generalization/Tying_Knots/Tying_Knots_subactivity05_data.json"
-# annotation_path = '/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/splits/separate_attempts/Tangram/Tangram_sepattempt.json'
-annotation_path = '/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/splits/crossdomain_generalization/Tying_Knots/Tying_Knots_crossdomain_testonvalonly.json'
-class_map = "/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/annotations/category_idx.txt" 
-data_path = "/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/data/360p"
+# annotation_path = "../data/EvoStruggle/splits/indomain_generalization/Tying_Knots/Tying_Knots_subactivity05_data.json"
+# annotation_path = '../data/EvoStruggle/splits/separate_attempts/Tangram/Tangram_sepattempt.json'
+annotation_path = '../data/EvoStruggle/splits/crossdomain_generalization/Tying_Knots/Tying_Knots_crossdomain_testonvalonly.json'
+class_map = "../data/EvoStruggle/annotations/category_idx.txt" 
+data_path = "../data/EvoStruggle/data/360p"
 block_list = None
 
 resize_length = 768
