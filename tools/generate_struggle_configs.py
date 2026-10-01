@@ -45,12 +45,15 @@ def experiments():
             js = f'splits/separate_attempts/{act}/{act}_allattempts_sample{s:02d}.json'
             yield ('allattempts_sampled', f'allattempts_{short}_sample{s:02d}', False, js, act,
                    ['train'], ['validation'], ['validation'])
-        # Task-level generalization (Table 3): report on the held-out task
+        # Task-level generalization (Table 3): select the model on validation (tasks seen in
+        # training, other participants), report on the held-out task
         for t in tasks:
             js = f'splits/indomain_generalization/{act}/{act}_subactivity{t:02d}_data.json'
             yield ('task_generalization', f'taskgen_{short}_task{t:02d}', False, js, act,
                    ['train'], ['validation'], ['test'])
-        # Activity-level generalization (Table 4): report on the validation set of the held-out activity
+        # Activity-level generalization (Table 4, Fig. 6): train on the train sets of the other three
+        # activities, select the model on their validation sets, report on the validation set of
+        # the held-out activity (subset `test` in the *_testonvalonly.json files)
         js = f'splits/crossdomain_generalization/{act}/{act}_crossdomain_testonvalonly.json'
         yield ('activity_generalization', f'activitygen_{short}', True, js, None,
                ['train'], ['validation'], ['test'])
@@ -109,11 +112,16 @@ def main():
             feats, videos = f'{feats}/{act}', f'{videos}/{act}'
 
         # ActionFormer / TriDet: trainval.py keeps the checkpoint with the best mAP on
-        # val_split, which is set to the subset reported in the paper (as in the original code)
+        # val_split (the validation subset); if the results are reported on another subset,
+        # evaluate the selected checkpoint with `eval.py <config> <ckpt> --split <subset>`
         for codebase in ('actionformer_release', 'TriDet'):
             out_dir = os.path.join(REPO_ROOT, codebase, 'configs', 'struggle', setting)
             os.makedirs(out_dir, exist_ok=True)
-            text = header + make_yaml(bases[codebase, combined], json_file, feats, train, test)
+            note = header
+            if test != val:
+                note += (f'# Model selection on {val}; report results on {test} with:\n'
+                         f'#   python eval.py <this config> <ckpt folder> --split {" ".join(test)}\n')
+            text = note + make_yaml(bases[codebase, combined], json_file, feats, train, val)
             with open(os.path.join(out_dir, name + '.yaml'), 'w') as f:
                 f.write(text)
             n += 1
