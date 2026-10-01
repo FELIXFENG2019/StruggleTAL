@@ -58,7 +58,7 @@ git clone https://github.com/FELIXFENG2019/EvoStruggle.git data/EvoStruggle
 # ln -s /path/to/EvoStruggle data/EvoStruggle
 ```
 
-Then add the features and/or videos (see the [download instructions](https://github.com/FELIXFENG2019/EvoStruggle#how-to-download)):
+Then download the 360p videos (see the [download instructions](https://github.com/FELIXFENG2019/EvoStruggle#how-to-download)) and place them in `data/EvoStruggle/data/360p/`. ActionFormer and TriDet additionally need the SlowFast features, which are extracted from these videos (see below):
 
 ```
 data/EvoStruggle/
@@ -78,7 +78,16 @@ data/EvoStruggle/
         └── Tying_Knots/
 ```
 
-The SlowFast features (SlowFast-R50, 2304-d, window of 32 frames, stride of 16 frames) can also be extracted from the 360p videos with [`tools/video_feature_extractor.py`](https://github.com/FELIXFENG2019/EvoStruggle/blob/main/tools/video_feature_extractor.py) in the EvoStruggle repository.
+### Extracting the SlowFast features
+
+The features are not distributed with the dataset; extract them from the 360p videos with [`tools/video_feature_extractor.py`](https://github.com/FELIXFENG2019/EvoStruggle/blob/main/tools/video_feature_extractor.py) of the EvoStruggle repository (see [`extracted_features/README.md`](https://github.com/FELIXFENG2019/EvoStruggle/tree/main/extracted_features) there for details). The script uses a Kinetics-pretrained SlowFast-R50 with a window of 32 frames and a stride of 16 frames, and writes one `(num_clips, 2304)` `.npy` file per video to `data/EvoStruggle/extracted_features/slowfast_features/<Activity>/`:
+
+```bash
+# from the root of this repository; requires PyTorch, torchvision and PyTorchVideo
+for act in Tying_Knots Origami Tangram Shuffle_Cards; do
+    python data/EvoStruggle/tools/video_feature_extractor.py --task $act
+done
+```
 
 ## 3. Experiments
 
