@@ -1,6 +1,6 @@
-annotation_path = "/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/splits/indomain_generalization/Tying_Knots/Tying_Knots_subactivity01_data.json"
-class_map = "/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/annotations/category_idx.txt" 
-data_path = "/media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/data/360p"
+annotation_path = "../data/EvoStruggle/splits/indomain_generalization/Tying_Knots/Tying_Knots_subactivity01_data.json"
+class_map = "../data/EvoStruggle/annotations/category_idx.txt" 
+data_path = "../data/EvoStruggle/data/360p"
 block_list = None
 
 window_size = 256

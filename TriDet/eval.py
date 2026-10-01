@@ -26,6 +26,9 @@ def main(args):
         cfg = load_config(args.config)
     else:
         raise ValueError("Config file does not exist.")
+    if args.split is not None:
+        # evaluate on a different subset than the val_split in the config
+        cfg['val_split'] = args.split
     assert len(cfg['val_split']) > 0, "Test set must be specified!"
 
     if ".pth.tar" in args.ckpt:
@@ -122,6 +125,8 @@ if __name__ == '__main__':
                         help='max number of output actions (default: -1)')
     parser.add_argument('--saveonly', action='store_true',
                         help='Only save the ouputs without evaluation (e.g., for test set)')
+    parser.add_argument('--split', nargs='+', default=None,
+                        help='subset(s) to evaluate on, overriding val_split in the config (e.g. --split test)')
     parser.add_argument('-p', '--print-freq', default=10, type=int,
                         help='print frequency (default: 10 iterations)')
     parser.add_argument('-load_ema', action='store_true', help='load the EMA model parameters')

@@ -2,9 +2,9 @@ dataset_name: struggle_combined
 train_split: ['train']
 val_split: ['test_subactivity05'] # for unseen test ['test_subactivity01', ...]
 dataset: {
-  # json_file: /media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/splits/crossdomain_generalization/Tying_Knots/Tying_Knots_crossdomain_testonvalonly.json,
-  json_file: /media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/splits/crossdomain_generalization/Shuffle_Cards/Shuffle_Cards_crossdomain.json,
-  feat_folder: /media/alexa/WORKSPACE/Shijia-stage-two/new_struggle_dataset/extracted_features/slowfast_features,
+  # json_file: ../data/EvoStruggle/splits/crossdomain_generalization/Tying_Knots/Tying_Knots_crossdomain_testonvalonly.json,
+  json_file: ../data/EvoStruggle/splits/crossdomain_generalization/Shuffle_Cards/Shuffle_Cards_crossdomain.json,
+  feat_folder: ../data/EvoStruggle/extracted_features/slowfast_features,
   # activity name choose from [Tying_Knots, Origami, Shuffle_Cards, Tangram]
   file_ext: .npy,
   file_prefix: ~,

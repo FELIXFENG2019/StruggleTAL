@@ -28,7 +28,9 @@ class CombinedStruggleDataset(Dataset):
         num_classes,     # number of action categories
         file_prefix,     # feature file prefix if any
         file_ext,        # feature file extension if any
-        force_upsampling # force to upsample to max_seq_len
+        force_upsampling, # force to upsample to max_seq_len
+        feat_noise_std=0.05,  # std of the Gaussian noise added to the input features
+        eval_feat_noise=True, # also add the noise at evaluation time (as in the paper)
     ):
         # file path
         assert os.path.exists(feat_folder) and os.path.exists(json_file)
@@ -57,6 +59,8 @@ class CombinedStruggleDataset(Dataset):
         self.num_classes = num_classes
         self.label_dict = None
         self.crop_ratio = crop_ratio
+        self.feat_noise_std = feat_noise_std
+        self.eval_feat_noise = eval_feat_noise
 
         # load database and select the subset
         dict_db, label_dict = self._load_json_db(self.json_file)
@@ -182,9 +186,12 @@ class CombinedStruggleDataset(Dataset):
         filename = os.path.join(self.feat_folder, activity, vid_id + self.file_ext)
         feats = np.load(filename).astype(np.float32)
         # Add random Gaussian noise as data augmentation
-        noise_std = 0.05 # have tried the 0.01, 0.02, 0.05, and 0.07 in which the 0.05 have the best trend in mAP
-        noise = np.random.normal(loc=0.0, scale=noise_std, size=feats.shape).astype(np.float32)
-        feats = feats + noise
+        # have tried the 0.01, 0.02, 0.05, and 0.07 in which the 0.05 have the best trend in mAP
+        # NOTE: the results in the paper were obtained with the noise also added at evaluation time
+        # (eval_feat_noise=True); set eval_feat_noise to False for deterministic evaluation
+        if self.feat_noise_std > 0 and (self.is_training or self.eval_feat_noise):
+            noise = np.random.normal(loc=0.0, scale=self.feat_noise_std, size=feats.shape).astype(np.float32)
+            feats = feats + noise
 
         # deal with downsampling (= increased feat stride)
         feats = feats[::self.downsample_rate, :]

@@ -94,6 +94,9 @@ def main(args):
         cfg = load_config(args.config)
     else:
         raise ValueError("Config file does not exist.")
+    if args.split is not None:
+        # evaluate on a different subset than the val_split in the config
+        cfg['val_split'] = args.split
     assert len(cfg['val_split']) > 0, "Test set must be specified!"
     # pprint(cfg)
 
@@ -163,6 +166,8 @@ if __name__ == '__main__':
       description='Train a point-based transformer for action localization')
     parser.add_argument('config', type=str, metavar='DIR',
                         help='path to a config file')
+    parser.add_argument('--split', nargs='+', default=None,
+                        help='subset(s) to evaluate on, overriding val_split in the config (e.g. --split test)')
     parser.add_argument('-p', '--print-freq', default=10, type=int,
                         help='print frequency (default: 10 iterations)')
     args = parser.parse_args()

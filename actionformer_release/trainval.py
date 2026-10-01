@@ -12,7 +12,6 @@ import torch.utils.data
 import torch.backends.cudnn as cudnn
 # for visualization
 from torch.utils.tensorboard import SummaryWriter
-import wandb
 
 # our code
 from libs.core import load_config
@@ -50,8 +49,11 @@ def main(args):
     if not os.path.exists(ckpt_folder):
         os.mkdir(ckpt_folder)
     # tensorboard writer
-    wandb.tensorboard.patch(root_logdir=os.path.join(ckpt_folder, 'logs'), pytorch=True)
-    wandb.init(project="actionformer_struggle", sync_tensorboard=True)
+    # optional Weights & Biases logging (enable with --wandb)
+    if args.wandb:
+        import wandb
+        wandb.tensorboard.patch(root_logdir=os.path.join(ckpt_folder, 'logs'), pytorch=True)
+        wandb.init(project="actionformer_struggle", sync_tensorboard=True)
     tb_writer = SummaryWriter(os.path.join(ckpt_folder, 'logs'))
 
     # fix the random seeds (this will fix everything)
@@ -187,7 +189,8 @@ def main(args):
 
     # wrap up
     tb_writer.close()
-    wandb.finish()
+    if args.wandb:
+        wandb.finish()
     print("All done!")
     return
 
@@ -205,6 +208,8 @@ if __name__ == '__main__':
                         help='checkpoint frequency (default: every 5 epochs)')
     parser.add_argument('--output', default='', type=str,
                         help='name of exp folder (default: none)')
+    parser.add_argument('--wandb', action='store_true',
+                        help='log training curves to Weights & Biases')
     parser.add_argument('--resume', default='', type=str, metavar='PATH',
                         help='path to a checkpoint (default: none)')
     args = parser.parse_args()

@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+
+# dataset (see README, section 2)
+data/
+
+# training outputs and pretrained weights
+ckpt/
+exps/
+wandb/
+OpenTAD/pretrained/
